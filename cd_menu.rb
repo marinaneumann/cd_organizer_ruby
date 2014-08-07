@@ -19,14 +19,14 @@ def main_menu
     selection = gets.chomp
     if selection == 'a'
       add_cd
-
     elsif selection == 'ar'
       puts " Please enter the artist you'd like to search for"
-      artist = gets.chomp
-
+      @input_artist = gets.chomp
+        find_by_artist
     elsif selection == 'aa'
       puts " Please enter the cd name you'd like to search for"
-      name = gets.chomp
+      @input_name = gets.chomp
+        find_by_name
     elsif selection == 'l'
       puts "Here's a list of all your cds"
       show_list
@@ -53,8 +53,24 @@ def add_cd
   puts "CD name: #{cd_name}, Artist: #{cd_artist}\n\n"
 end
 
+def find_by_artist
+  @found_cds_by_artist = Cd.all.select {|cd| cd.artist == @input_artist}
+  # puts "Lunch is coming"
+  @found_cds_by_artist.each do |cd|
+    puts "CD name: #{cd.name}, Artist: #{cd.artist}\n\n"
+  end
+end
+
+def find_by_name
+  @found_cds_by_name = Cd.all.select {|cd| cd.name == @input_name}
+  # puts "Lunch is coming"
+  @found_cds_by_name.each do |cd|
+    puts "CD name: #{cd.name}, Artist: #{cd.artist}\n\n"
+  end
+end
+
 def show_list
-  tp Cd.all
+  tp Cd.all, :name, :artist
 end
 
 main_menu
