@@ -30,16 +30,16 @@ def main_menu
       @input_name = gets.chomp
         find_by_name
     elsif selection == 'artists'
-      if @@all_cds = []
+      if Cd.all == []
         puts "You have no CDs yet, please add one."
       else
         puts "Here are all of your artists."
-      #show all artists
-      show_artists
-      puts "Enter an artist name to find all the albums for that artist."
-      @input_artist = gets.chomp
-      #list  all the matching albums
-      show_artist_albums
+        show_artists
+        puts "Enter an artist name to find all the albums for that artist."
+        @input_artist = gets.chomp
+
+        show_artist_albums
+      end
     elsif selection == 'l'
       puts "Here's a list of all your cds"
       show_list
@@ -68,7 +68,6 @@ end
 
 def find_by_artist
   @found_cds_by_artist = Cd.all.select {|cd| cd.artist == @input_artist}
-  # puts "Lunch is coming"
   @found_cds_by_artist.each do |cd|
     puts "CD name: #{cd.name}, Artist: #{cd.artist}\n\n"
   end
@@ -76,7 +75,6 @@ end
 
 def find_by_name
   @found_cds_by_name = Cd.all.select {|cd| cd.name == @input_name}
-  # puts "Lunch is coming"
   @found_cds_by_name.each do |cd|
     puts "CD name: #{cd.name}, Artist: #{cd.artist}\n\n"
   end
@@ -87,10 +85,12 @@ def show_list
 end
 
 def show_artists
-  tp Cd.all, :artist
+
+
+   tp Cd.all, :artist
 end
 
-def show_artists_albums
+def show_artist_albums
   @found_cds_by_artist = Cd.all.select {|cd| cd.artist == @input_artist}
   @found_cds_by_artist.each do |cd|
     puts "CD name: #{cd.name}\n\n"
