@@ -11,11 +11,13 @@ def main_menu
     puts "\n_____________________________________\n\n"
     #list of all cds
     #menu
+    puts "Press 'l' to list all the cds"
     puts "Press 'a' to add a cd"
     puts "Press 'ar' to find an cd by artist"
     puts "Press 'aa' to find an cd by name"
+    puts "Enter 'artists' to show all of your artists"
     puts "Press 'x' to exit the program"
-    puts "Press 'l' to list all the cds"
+
     selection = gets.chomp
     if selection == 'a'
       add_cd
@@ -27,6 +29,17 @@ def main_menu
       puts " Please enter the cd name you'd like to search for"
       @input_name = gets.chomp
         find_by_name
+    elsif selection == 'artists'
+      if @@all_cds = []
+        puts "You have no CDs yet, please add one."
+      else
+        puts "Here are all of your artists."
+      #show all artists
+      show_artists
+      puts "Enter an artist name to find all the albums for that artist."
+      @input_artist = gets.chomp
+      #list  all the matching albums
+      show_artist_albums
     elsif selection == 'l'
       puts "Here's a list of all your cds"
       show_list
@@ -72,5 +85,17 @@ end
 def show_list
   tp Cd.all, :name, :artist
 end
+
+def show_artists
+  tp Cd.all, :artist
+end
+
+def show_artists_albums
+  @found_cds_by_artist = Cd.all.select {|cd| cd.artist == @input_artist}
+  @found_cds_by_artist.each do |cd|
+    puts "CD name: #{cd.name}\n\n"
+  end
+end
+
 
 main_menu
